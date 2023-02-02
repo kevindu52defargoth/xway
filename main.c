@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 #define MAXCAR 80
-#define LOCALIP "127.0.0.1"
+#define LOCALIP "10.98.14.73"
 #define REMOTEIP "10.31.125.14"
 #define REMOTEPORT 502
 
@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
   // Etape 3 - demande d'ouverture de connexion
   CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
                      sizeof(struct sockaddr_in)), "Probleme connection\n");
+  printf("OK connect\n");
 
 
   // Etape 4 - Ecriture de la trame
