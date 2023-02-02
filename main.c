@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 #define MAXCAR 80
-#define LOCALIP "127.0.0.1"
+#define LOCALIP "10.98.14.73"
 #define REMOTEIP "10.31.125.14"
 #define REMOTEPORT 502
 
@@ -32,13 +32,14 @@ int main(int argc, char *argv[]) {
   // Etape2 - Adressage du destinataire
   addrServ.sin_family = AF_INET;
 
-  addrServ.sin_port = REMOTEPORT;
+  addrServ.sin_port = htons(REMOTEPORT);
   addrServ.sin_addr.s_addr = inet_addr(REMOTEIP);
 
 
   // Etape 3 - demande d'ouverture de connexion
   CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
                      sizeof(struct sockaddr_in)), "Probleme connection\n");
+  printf("OK connect\n");
 
 
   // Etape 4 - Ecriture de la trame
@@ -56,6 +57,9 @@ int main(int argc, char *argv[]) {
 
   buff_tx[12] = 0x09;   // On transmet
   buff_tx[13] = 0x42;   // ID aleatoire
+
+  buff_tx[14] = 0x24;  //message pour allumer l'API
+  buff_tx[15] = 0x06;
 
   // Etape 5 - Envoie
   nbcar = send(sd1, buff_tx, 16, 0);
