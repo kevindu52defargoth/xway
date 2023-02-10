@@ -65,7 +65,10 @@ int main(int argc, char *argv[]) {
   nbcar = send(sd1, buff_tx, 16, 0);
   printf("envoye : %d\n", nbcar);
   nbcar = recvfrom(sd1, buff_rx, 15, 0, NULL, NULL);
-  printf("recu : %s\n", buff_rx);
+
+  printf("\nrecu : ");
+  for (int i =0; i < 6 + buff_rx[5]; i++)
+    printf("%c\t", buff_rx[i]);
 
   // Etape6 - on ferme la socket ce qui va liberer le port
   close(sd1);
