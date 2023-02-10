@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
   buff_tx[7] = 0xF1;  // type de donnee
 
   // on ajoute les addresses
-  char src_addr[] = {0x20, 0x10};  // notre addresse est 1.32
+  char src_addr[] = {0x0a, 0x10};  // notre addresse est 1.10
   char dest_addr[] = {0x14, 0x10};
   memcpy(buff_tx + 8, src_addr, 2);
   memcpy(buff_tx + 10, dest_addr, 2);
