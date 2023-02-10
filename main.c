@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
   struct XwayAddr addrLocal;
   struct XwayAddr addrAPI;
   char on[2] = {0x24, 0x06};
+  char off[2] = {0x25, 0x06};
 
   // Etape 1 - Creation de la socket
   CHECK(sd1 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
