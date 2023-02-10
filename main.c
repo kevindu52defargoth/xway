@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 
   printf("\nrecu : ");
   for (int i =0; i < 6 + buff_rx[5]; i++)
-    printf("%c\t", buff_rx[i]);
+    printf("%x\t", buff_rx[i]);
 
   // Etape6 - on ferme la socket ce qui va liberer le port
   close(sd1);
