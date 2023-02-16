@@ -68,3 +68,21 @@ void send_trame(int socket, char * msg, int lenMsg, struct XwayAddr src, struct 
     *lenResponse = buff_rx[5] - 6;
   }
 };
+
+void write_words(int socket, char * msg, char * addresse_mot, int nbreMot, struct XwayAddr src, struct XwayAddr dest, char * response, int * lenResponse){
+    int length;
+
+    char buff_tx[MAXCAR + 1] = {0};
+    char header_write[] = {0x37, 0x06, 0x68, 0x07};
+    memcpy(buff_tx,  header_write, 4);
+
+    memcpy(buff_tx + 4, addresse_mot, 2);
+
+    buff_tx[6] = nbreMot;
+
+    memcpy(buff_tx + 7, msg, nbreMot*2);
+
+
+    length = nbreMot*2 + 7;
+    send_trame(socket, buff_tx, length, src, dest, response, lenResponse);
+}
