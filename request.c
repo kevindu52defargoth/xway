@@ -19,7 +19,7 @@ void affiche_trame(char * buff){
     printf("\n");
 }
 
-void send_trame(int socket, char * msg, int lenMsg, struct XwayAddr src, struct XwayAddr dest){
+void send_trame(int socket, char * msg, int lenMsg, struct XwayAddr src, struct XwayAddr dest, char * response, int * lenResponse){
   char buff_tx[MAXCAR + 1];
   char buff_rx[MAXCAR + 1];
   int nbcar;
@@ -45,11 +45,26 @@ void send_trame(int socket, char * msg, int lenMsg, struct XwayAddr src, struct 
   memcpy(buff_tx + 14, msg, lenMsg);
 
   //Envoie
+#ifdef _DEBUG_
   printf("\nenvoie : ");
   affiche_trame(buff_tx);
+#endif
+
   nbcar = send(socket, buff_tx, 16, 0);
+
+#ifdef _DEBUG_
   printf("envoye : %d\n", nbcar);
+#endif
+
   nbcar = recvfrom(socket, buff_rx, 15, 0, NULL, NULL);
+
+#ifdef _DEBUG_
   printf("recu : ");
   affiche_trame(buff_rx);
+#endif
+
+  if (response != NULL && lenResponse != NULL) {
+    memcpy(response, buff_rx + 12, buff_rx[5] - 6);
+    *lenResponse = buff_rx[5] - 6;
+  }
 };
