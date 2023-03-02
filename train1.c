@@ -11,7 +11,7 @@
 #define MAXCAR 80
 #define LOCALIP "10.98.14.73"
 #define REMOTEIP "10.31.125.14"
-#define GESTEIP "127.0.0.1"
+#define GESTEIP "10.98.14.73"
 #define REMOTEPORT 502
 
 

@@ -16,7 +16,7 @@
 #include "request.h"
 #include "gestionnaire.h"
 
-#define LOCALIP "10.98.14.73"
+#define LOCALIP "0.0.0.0"
 #define LOCAL_PORT 7867
 
 #define MAXCAR 80
