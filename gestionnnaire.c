@@ -41,11 +41,11 @@ pthread_mutex_t modifier_etat;
 int ressources[NBRE_RESSOURCES];
 
 char header_mot[] = {0x37, 0x06, 0x68, 0x07};
-int sd1; // descripteur de socket de dialogue
+int sd1, diag; // descripteur de socket de dialogue
 struct XwayAddr localXway;
 
 int main(){
-  struct sockaddr_in addrlect, addrecr;
+  struct sockaddr_in addrSrv;
   char buff_rx[MAXCAR + 1];
   int adrlg; // longueur de l'addresse
   int res;
@@ -67,17 +67,18 @@ int main(){
   CHECK(sd1 = socket(AF_INET, SOCK_DGRAM, 0), "creation sd1");
 
   // Adressage de la socket
-  addrlect.sin_family = AF_INET;
-  addrlect.sin_addr.s_addr = INADDR_ANY;
+  addrSrv.sin_family = AF_INET;
+  addrSrv.sin_addr.s_addr = INADDR_ANY;
 
   //definition port
-  addrlect.sin_port = htons(LOCAL_PORT);
+  addrSrv.sin_port = htons(LOCAL_PORT);
 
   //affectation de l'addresse a la socket
-  CHECK(bind(sd1, (struct sockaddr *)&addrlect, sizeof(addrlect)),
+  CHECK(bind(sd1, (struct sockaddr *)&addrSrv, sizeof(addrSrv)),
         "erreur bind");
 
   printf("debut\n");
+  diag = accept(sd1, &addrSrv, sizeof(addrSrv));
   // communication
   while(1){
     recvfrom(sd1, buff_rx, MAXCAR + 1, 0, NULL, NULL);
