@@ -46,6 +46,7 @@ int main() {
   CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
                      sizeof(struct sockaddr_in)), "Probleme connection\n");
 
+  printf("OK connect sd1\n");
   // Etape2bis - Adressage du destinataire sd2
   addrServ.sin_port = htons(7867);
   addrServ.sin_addr.s_addr = inet_addr(GESTEIP);
@@ -54,7 +55,7 @@ int main() {
   // Etape 3bis - demande d'ouverture de connexion sd2
   CHECK(connect(sd2, (const struct sockaddr *)&addrServ,
                 sizeof(struct sockaddr_in)), "Probleme connection\n");
-  printf("OK connect\n");
+  printf("OK connect sd2\n");
 
   //etape 4 - envoie du message pour faire tourner le train
   addrLocal.network = addrAPI.network = addrGeste.network = 0x10;
