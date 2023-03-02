@@ -83,7 +83,7 @@ int main(){
   diag = accept(sd1, (struct sockaddr *) &peer_addr, &peer_addr_size);
   // communication
   while(1){
-    recvfrom(sd1, buff_rx, MAXCAR + 1, 0, NULL, NULL);
+    recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
 #ifdef _DEBUG_
     PRINT("\recue : ");
     affiche_trame(buff_rx);
@@ -104,9 +104,9 @@ int main(){
 
     if (res == 0){
       traitement(buff_rx + 19, remoteXway);
-      send_response(sd1, "FE", 1, localXway, remoteXway, buff_rx[13]);
+      send_response(diag, "FE", 1, localXway, remoteXway, buff_rx[13]);
     } else {
-      send_response(sd1, "FE", 1, localXway, remoteXway, buff_rx[13]);
+      send_response(diag, "FE", 1, localXway, remoteXway, buff_rx[13]);
     }
   }
 }
@@ -183,7 +183,7 @@ void * thread_traitement(struct param_thread * param){
     pthread_mutex_lock(&modifier_etat);
   }
 
-  send_trame(sd1, "OK", 2, localXway, param->remote, NULL, 0);
+  send_trame(diag, "OK", 2, localXway, param->remote, NULL, 0);
 
   return NULL;
 };
