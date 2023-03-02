@@ -51,7 +51,8 @@ int main(int argc, char *argv[]) {
   addrLocal.network = addrAPI.network = 0x10;
   addrLocal.addr = 0x0A;
   addrAPI.addr = 0x14;
-
+  
+  send_trame(sd1, off, 2, addrLocal, addrAPI, NULL, NULL);
   send_trame(sd1, on, 2, addrLocal, addrAPI, NULL, NULL);
 
   // Etape6 - on ferme la socket ce qui va liberer le port
