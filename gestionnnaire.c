@@ -45,7 +45,8 @@ int sd1, diag; // descripteur de socket de dialogue
 struct XwayAddr localXway;
 
 int main(){
-  struct sockaddr_in addrSrv;
+  struct sockaddr_in addrSrv, peer_addr;
+  socklen_t peer_addr_size;
   char buff_rx[MAXCAR + 1];
   int adrlg; // longueur de l'addresse
   int res;
@@ -78,7 +79,8 @@ int main(){
         "erreur bind");
 
   printf("debut\n");
-  diag = accept(sd1, &addrSrv, sizeof(addrSrv));
+  peer_addr_size = sizeof(peer_addr);
+  diag = accept(sd1, (struct sockaddr *) &peer_addr, &peer_addr_size);
   // communication
   while(1){
     recvfrom(sd1, buff_rx, MAXCAR + 1, 0, NULL, NULL);
