@@ -77,6 +77,7 @@ int main(){
   CHECK(bind(sd1, (struct sockaddr *)&addrlect, sizeof(addrlect)),
         "erreur bind");
 
+  printf("debut\n");
   // communication
   while(1){
     recvfrom(sd1, buff_rx, MAXCAR + 1, 0, NULL, NULL);
