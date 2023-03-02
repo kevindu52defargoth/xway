@@ -21,6 +21,8 @@ void wait_ack(int socket, struct XwayAddr src, struct XwayAddr dest, int capteur
 
 void send_response(int socket, char * msg, int lenMsg, struct XwayAddr src, struct XwayAddr dest, char id);
 
+void wait_ressource(int socket, struct XwayAddr src, struct XwayAddr dest);
+
 #define IMPORT_REQUEST
 
 #endif

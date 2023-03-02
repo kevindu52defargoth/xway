@@ -153,3 +153,22 @@ void send_response(int socket, char * msg, int lenMsg, struct XwayAddr src, stru
   printf("envoye : %d\n", nbcar);
   #endif
 };
+
+void wait_ressource(int socket, struct XwayAddr src, struct XwayAddr dest) {
+  int nbcar;
+  char buff_rx[MAXCAR + 1];
+
+
+  int att = -1;
+  printf("On attend les ressources\n");
+  nbcar = recvfrom(socket, buff_rx, 30, 0, NULL, NULL);
+#ifdef _DEBUG_
+  printf("recu : ");
+  affiche_trame(buff_rx);
+#endif
+
+  printf("On a %d\n", att);
+
+  char buff_tx[] = {0x00, 0x00,  0x00, 0x01, 0x00, 0x09, 0x00, buff_rx[7], buff_rx[10], buff_rx[11], buff_rx[8], buff_rx[9], 0x19, buff_rx[13], 0xFE};
+
+}
