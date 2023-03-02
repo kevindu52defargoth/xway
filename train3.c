@@ -53,14 +53,29 @@ int main() {
   
   char vht[] = {0x0A, 0x00, 0x2c, 0x00, 0xFF, 0xFF};
   
-  //R5
   
 	while(1) {
 	
   // train 3 
   
-  //R2
+  AIGUILLAGE(0, train3);
   
+  TRONCON(0, train3, 0);
+  
+  TRONCON(13, train3, 16);
+
+  AIGUILLAGE(52, train3);
+  
+  TRONCON(20, train3, 52);
+  
+  //R1 + R5
+
+  AIGUILLAGE(34, train3);
+
+  TRONCON(30, train3, 53);
+
+  //-R1, R2
+
   AIGUILLAGE(33, train3);
   
   TRONCON(9, train3, 65);
@@ -78,24 +93,5 @@ int main() {
   TRONCON(15, train3, 3);
 
   TRONCON(12, train3, 2);
-    
-  AIGUILLAGE(0, train3);
-  
-  TRONCON(0, train3, 0);
-  
-  TRONCON(13, train3, 16);
-
-  AIGUILLAGE(52, train3);
-  
-  TRONCON(20, train3, 52);
-  
-  //R1 + R5
-
-  AIGUILLAGE(34, train3);
-
-  TRONCON(30, train3, 53);
-
-  //-R1
-
   }
 }
