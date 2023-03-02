@@ -16,8 +16,8 @@
 
 #define TRONCON(no, mot, capt) vht[2] = (char) no; write_words(sd1, vht, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, capt);
 #define AIGUILLAGE(no, mot) vha[4] = (char) no; write_words(sd1, vha, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, -1);
-#define DEMANDE_RESSOURCE(no) res[0] = no; res[1] = -1; write_words(sd1, res, motRes, 1, addrLocal, addrAPI, NULL, NULL); wait_ressource(sd1, addrLocal, addrAPI);
-#define LIBERE_RESSOURCE(no) res[0] = no; res[1] = 0; write_words(sd1, res, motRes, 1, addrLocal, addrAPI, NULL, NULL);
+#define DEMANDE_RESSOURCE(no) res[0] = no; res[1] = -1; write_words(sd1, res, motRes, 1, addrLocal, addrAPI, NULL, NULL); wait_ressource(sd1, addrLocal, addrGeste);
+#define LIBERE_RESSOURCE(no) res[0] = no; res[1] = 0; write_words(sd1, res, motRes, 1, addrLocal, addrGeste, NULL, NULL);
 
 int main() {
   int sd1; // descripteur de socket de dialogue
