@@ -50,6 +50,9 @@ int main(){
   int adrlg; // longueur de l'addresse
   int res;
 
+  localXway.network = 0x10;
+  localXway.addr = 0x42;
+
   struct XwayAddr remoteXway;
 
   localXway.network = 0x10;

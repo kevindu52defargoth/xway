@@ -28,6 +28,7 @@ int main() {
 
   struct XwayAddr addrLocal;
   struct XwayAddr addrAPI;
+  struct XwayAddr addrGeste;
  
   // Etape 1 - Creation de la socket
   CHECK(sd1 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
@@ -46,9 +47,11 @@ int main() {
   printf("OK connect\n");
 
   //etape 4 - envoie du message pour faire tourner le train
-  addrLocal.network = addrAPI.network = 0x10;
+  addrLocal.network = addrAPI.network = addrGeste.network = 0x10;
   addrLocal.addr = 0x0A;
   addrAPI.addr = 0x14;
+  addrGeste.addr = 0x42;
+
   
   char train1[] = {0x01, 0x00};
   char vha[] = {0x0A, 0x00, 0xFF, 0xFF, 0x32, 0x00};
