@@ -114,8 +114,8 @@ int main(){
         remoteXway.addr = buff_rx[8];
         send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
         traitement(buff_rx + 20, remoteXway);
-        for (int i = 0; i <NBRE_RESSOURCES; i++)
-          printf("%d ", ressources[i]);
+        for (int u = 0; u <NBRE_RESSOURCES; u++)
+          printf("%d ", ressources[u]);
         printf("\n");
     }
   }
@@ -189,7 +189,7 @@ void * thread_traitement(struct param_thread * param){
     // on libère des ressources sans vérifier quelles sont prises YOLO
     pthread_mutex_lock(&modifier_etat);
     for (int i= 0;  i<nbreMot; i++){
-      ressources[i] = 0;
+      ressources[datas[2*i + 2]] = 0;
     }
     pthread_mutex_unlock(&modifier_etat);
   }

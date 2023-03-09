@@ -192,6 +192,6 @@ void wait_ressource(int socket, struct XwayAddr src, struct XwayAddr dest) {
   if (buff_rx[12] == 'K') {
     printf("ressource prise\n");
     att = 1;
-  } else {printf("ressource pas prise\n");}
+  }
   }
 }
