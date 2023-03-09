@@ -108,6 +108,9 @@ int main() {
   LIBERE_RESSOURCE(4)
     
   TRONCON(19, train1, 23);
+  DEMANDE_RESSOURCE(1)
+  DEMANDE_RESSOURCE(2)
+  DEMANDE_RESSOURCE(4)
   break;
   }
 }
