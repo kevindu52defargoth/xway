@@ -159,8 +159,8 @@ void * thread_traitement(struct param_thread * param){
   char datas[MAXCAR];
   int nbreMot = param->datas[0];
   memcpy(datas, param->datas, nbreMot);
-  printf("\n%d\n", datas[4]);
-  printf("\n%d\n", datas[5]);
+  printf("\n%d\n", datas[0]);
+  printf("\n%d\n", datas[1]);
   if (datas[3] == -1){
     // on bloque des ressources
 
