@@ -11,7 +11,7 @@
 #define MAXCAR 80
 #define LOCALIP "10.98.14.73"
 #define REMOTEIP "10.31.125.14"
-#define GESTEIP "127.0.0.1"
+#define GESTEIP "10.98.14.73"
 #define REMOTEPORT 502
 
 
@@ -31,7 +31,7 @@ int main() {
   struct XwayAddr addrAPI;
   struct XwayAddr addrGeste;
  
-  // Etape 1 - Creation de la socket
+  // Etape 1 - Creation des sockets
   CHECK(sd1 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
   CHECK(sd2 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
 
@@ -50,6 +50,7 @@ int main() {
   // Etape2bis - Adressage du destinataire sd2
   addrServ.sin_port = htons(7867);
   addrServ.sin_addr.s_addr = inet_addr(GESTEIP);
+  printf("ok addressage\n");
 
 
   // Etape 3bis - demande d'ouverture de connexion sd2
