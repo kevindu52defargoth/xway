@@ -189,7 +189,7 @@ void wait_ressource(int socket, struct XwayAddr src, struct XwayAddr dest) {
   affiche_trame(buff_rx);
 #endif
   //printf("%d\n", nbcar);
-  if (buff_rx[12] == 'K') {
+  if (buff_rx[12] == 0x4b) {
     printf("ressource prise\n");
     att = 1;
   }
