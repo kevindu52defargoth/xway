@@ -160,7 +160,7 @@ void * thread_traitement(struct param_thread * param){
   int nbreMot = param->datas[0];
   memcpy(datas, param->datas, nbreMot);
 
-  if (datas[3] == 0xf){
+  if (datas[3] == -1){
     // on bloque des ressources
 
     // on vérifie que toutes les mutex dont on à besoin sont libres
