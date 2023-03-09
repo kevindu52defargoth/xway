@@ -80,7 +80,7 @@ void write_words(int socket, char * msg, char * addresse_mot, int nbreMot, struc
     memcpy(buff_tx + 8, msg, nbreMot*2);
 
 
-    length = nbreMot*2 + 9;
+    length = nbreMot*2 + 8;
     send_trame(socket, buff_tx, length, src, dest, response, lenResponse);
     wait_acknowledge(socket, src, dest);
 }
