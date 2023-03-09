@@ -85,7 +85,8 @@ int main(){
   // communication
   while(1){
     nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
-    printf("%d", nbCar);
+    if (nbCar == -1)
+      continue;
     PRINT("recue : ");
     affiche_trame(buff_rx);
 
