@@ -160,7 +160,7 @@ void * thread_traitement(struct param_thread * param){
   int nbreMot = param->datas[0];
   memcpy(datas, param->datas, nbreMot);
   printf("\n%d\n", datas[0]);
-  printf("\n%d\n", datas[1]);
+  printf("\n%d\n", datas[3]);
   if (datas[3] == -1){
     // on bloque des ressources
 
