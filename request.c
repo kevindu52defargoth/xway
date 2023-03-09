@@ -52,15 +52,15 @@ void send_trame(int socket, char * msg, int lenMsg, struct XwayAddr src, struct 
   printf("envoye : %d\n", nbcar);
 #endif
 
-  if (response != NULL && lenResponse != NULL)
+  if (response != NULL && lenResponse != NULL){
     nbcar = recvfrom(socket, buff_rx, 15, 0, NULL, NULL);
 
-#ifdef _DEBUG_
-  printf("recu : ");
-  affiche_trame(buff_rx);
-#endif
 
-  if (response != NULL && lenResponse != NULL) {
+    #ifdef _DEBUG_
+    printf("recu : ");
+    affiche_trame(buff_rx);
+    #endif
+
     memcpy(response, buff_rx + 12, buff_rx[5] - 6);
     *lenResponse = buff_rx[5] - 6;
   }
