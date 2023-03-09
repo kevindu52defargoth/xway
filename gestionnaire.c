@@ -66,7 +66,7 @@ int main(){
 
 
   // Creation de la socket
-  CHECK(sd1 = socket(AF_INET, SOCK_DGRAM, 0), "creation sd1");
+  CHECK(sd1 = socket(AF_INET, SOCK_STREAM, 0), "creation sd1");
 
   // Adressage de la socket
   addrSrv.sin_family = AF_INET;
@@ -78,6 +78,9 @@ int main(){
   //affectation de l'addresse a la socket
   CHECK(bind(sd1, (struct sockaddr *)&addrSrv, sizeof(addrSrv)),
         "erreur bind");
+
+  CHECK(listen(sd1, 50), "listen");
+  printf("OK listen\n");
 
   printf("debut\n");
   peer_addr_size = sizeof(peer_addr);
