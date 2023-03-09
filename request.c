@@ -52,7 +52,8 @@ void send_trame(int socket, char * msg, int lenMsg, struct XwayAddr src, struct 
   printf("envoye : %d\n", nbcar);
 #endif
 
-  nbcar = recvfrom(socket, buff_rx, 15, 0, NULL, NULL);
+  if (response != NULL && lenResponse != NULL)
+    nbcar = recvfrom(socket, buff_rx, 15, 0, NULL, NULL);
 
 #ifdef _DEBUG_
   printf("recu : ");
