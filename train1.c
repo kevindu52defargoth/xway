@@ -15,7 +15,7 @@
 #define REMOTEPORT 502
 
 //#define TRONCON(no, mot, capt) vht[2] = (char) no; write_words(sd1, vht, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, capt);
-//#define AIGUILLAGE(no, mot) vha[4] = (char) no; write_words(sd1, vha, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, -1);
+//#define AIGUILLAGE(no, mot) vha[4] = (char) no; write_words(sd1, vha, mot, 3, addrLocal, addrAPI, NULL, NULL);
 #define TRONCON(no, mot, capt) printf("troncon : %d\n", no)
 #define AIGUILLAGE(no, mot) printf("AIGUILLAGE : %d\n", no)
 #define DEMANDE_RESSOURCE(no) res[0] = no; res[1] = -1; write_words(sd2, res, motRes, 1, addrLocal, addrGeste, NULL, NULL); wait_ressource(sd2, addrLocal, addrGeste);

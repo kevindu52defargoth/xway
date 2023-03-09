@@ -1,3 +1,4 @@
+#include "request.h"
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -7,11 +8,6 @@
 #include <unistd.h>
 
 #define MAXCAR 80
-
-struct XwayAddr {
-    char network;
-    char addr;
-};
 
 void affiche_trame(char * buff){
     for (int i =0; i < 6 + buff[5]; i++)
@@ -86,6 +82,7 @@ void write_words(int socket, char * msg, char * addresse_mot, int nbreMot, struc
 
     length = nbreMot*2 + 9;
     send_trame(socket, buff_tx, length, src, dest, response, lenResponse);
+    wait_acknowledge(socket, src, dest);
 }
 
 void wait_ack(int socket, struct XwayAddr src, struct XwayAddr dest, int capteur) {
@@ -114,6 +111,27 @@ void wait_ack(int socket, struct XwayAddr src, struct XwayAddr dest, int capteur
 
 		send(socket, buff_tx, buff_tx[5]+6, 0);
 	} while (att != capteur);
+}
+
+void wait_acknowledge(int socket, struct XwayAddr src, struct XwayAddr dest){
+  int nbcar;
+  char buff_rx[MAXCAR + 1];
+
+
+  int att = -1;
+#ifdef _DEBUG_
+  printf("On attend un ack \n");
+#endif
+  do {
+    nbcar = recvfrom(socket, buff_rx, 30, 0, NULL, NULL);
+    #ifdef _DEBUG_
+    printf("recu : ");
+    affiche_trame(buff_rx);
+    #endif
+    if (buff_rx[nbcar -1] == (char) 0xfe)
+      att = 0;
+  } while (att == -1);
+
 }
 
 void send_response(int socket, char * msg, int lenMsg, struct XwayAddr src, struct XwayAddr dest, char id){
