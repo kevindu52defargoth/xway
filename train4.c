@@ -61,13 +61,13 @@ int main() {
 
   TRONCON(7, train4, 61);
   
-  //-R4 + R2 + R5
+  //-R4 + R2 + R5 + R6
 
   AIGUILLAGE(43, train4);
   
   TRONCON(29, train4, 54);
   
-  //-R2
+  //-R2-R3
   
   TRONCON(49, train4, -1);
   
@@ -83,9 +83,9 @@ int main() {
   
   AIGUILLAGE(53, train4);
   
-  TRONCON(27, train4, 32	);
+  TRONCON(27, train4, 32);
   
-  //-R4
+  //-R4-R6
   
   TRONCON(7, train4, 40);  
   
