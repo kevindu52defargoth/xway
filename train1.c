@@ -107,6 +107,6 @@ int main() {
   DEMANDE_RESSOURCE(1)
   DEMANDE_RESSOURCE(2)
   DEMANDE_RESSOURCE(4)
-  break;
+
   }
 }
