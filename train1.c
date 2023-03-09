@@ -9,9 +9,9 @@
 #include "request.h"
 
 #define MAXCAR 80
-#define LOCALIP "10.98.14.73"
+#define LOCALIP "10.31.125.110"
 #define REMOTEIP "10.31.125.14"
-#define GESTEIP "10.98.14.73"
+#define GESTEIP "10.31.125.110"
 #define REMOTEPORT 502
 
 
