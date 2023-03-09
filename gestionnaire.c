@@ -114,6 +114,10 @@ int main(){
         remoteXway.network = buff_rx[9];
         remoteXway.addr = buff_rx[8];
         send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
+        printf("%d\n", buff_rx[20]);
+        printf("%d\n", buff_rx[21]);
+        printf("%d\n", buff_rx[22]);
+        printf("%d\n", buff_rx[23]);
         traitement(buff_rx + 20, remoteXway);
 
     }
