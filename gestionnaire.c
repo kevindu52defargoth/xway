@@ -129,7 +129,7 @@ int check_trame(char* buff_rx){
 
   int nbreMots = buff_rx[20];
   int sizeData = buff_rx[5] - 16;
-  printf("nbreMots = %d, sizeData = %d", nbreMots, sizeData);
+  printf("nbreMots = %d, sizeData = %d\n", nbreMots, sizeData);
 
   if (nbreMots*2 != sizeData){
     return WORD_DATA;
@@ -159,8 +159,10 @@ void * thread_traitement(struct param_thread * param){
   char datas[MAXCAR];
   int nbreMot = param->datas[0];
   memcpy(datas, param->datas, nbreMot);
-  printf("\n%d\n", datas[0]);
-  printf("\n%d\n", datas[3]);
+  printf("%d\n", datas[0]);
+  printf("%d\n", datas[1]);
+  printf("%d\n", datas[2]);
+  printf("%d\n", datas[3]);
   if (datas[3] == -1){
     // on bloque des ressources
 
