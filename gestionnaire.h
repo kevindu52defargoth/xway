@@ -1,7 +1,7 @@
 #include "request.h"
 #include <pthread.h>
 
-enum retCode {REQUEST_TYPE, WORD_DATA};
+enum retCode {REQUEST_TYPE = 1, WORD_DATA = 2};
 
 struct param_thread{
   char * datas;
