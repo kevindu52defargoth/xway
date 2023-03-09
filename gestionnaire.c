@@ -98,6 +98,7 @@ int main(){
       continue;
     PRINT("recue : ");
     affiche_trame(buff_rx);
+    printf("nbcar = %d\n", nbCar);
 
     res = check_trame(buff_rx);
     switch (res){
