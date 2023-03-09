@@ -114,9 +114,7 @@ int main(){
         remoteXway.addr = buff_rx[8];
         send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
         traitement(buff_rx + 20, remoteXway);
-        for (int u = 0; u <NBRE_RESSOURCES-1; u++)
-          printf("%d ", ressources[u]);
-        printf("\n");
+
     }
   }
 }
