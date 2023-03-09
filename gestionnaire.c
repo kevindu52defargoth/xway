@@ -191,8 +191,9 @@ void * thread_traitement(struct param_thread * param){
     }
     pthread_mutex_unlock(&modifier_etat);
   }
+  char K = 0x4b;
 
-  send_trame(diag, "K", 1, localXway, param->remote, NULL, 0);
+  send_trame(diag, &K, 1, localXway, param->remote, NULL, 0);
 
   return NULL;
 };
