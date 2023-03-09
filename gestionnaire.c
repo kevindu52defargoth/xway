@@ -182,7 +182,7 @@ void * thread_traitement(struct param_thread * param){
     for (int i= 0;  i<nbreMot; i++){
       ressources[datas[2*i + 2]] = 0;
     }
-    pthread_mutex_lock(&modifier_etat);
+    pthread_mutex_unlock(&modifier_etat);
   }
 
   send_trame(diag, "OK", 2, localXway, param->remote, NULL, 0);
