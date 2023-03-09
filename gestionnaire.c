@@ -38,7 +38,7 @@ pthread_mutex_unlock(&screen);   \
 
 #define NBRE_RESSOURCES 4
 pthread_mutex_t modifier_etat;
-int ressources[NBRE_RESSOURCES] = { 0};
+int ressources[NBRE_RESSOURCES] = {1};
 
 char header_mot[] = {0x37, 0x06, 0x68, 0x07};
 int sd1, diag; // descripteur de socket de dialogue
