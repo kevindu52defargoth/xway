@@ -120,7 +120,7 @@ int check_trame(char* buff_rx){
   }
 
   int nbreMots = buff_rx[20];
-  int sizeData = buff_rx[5] - 12;
+  int sizeData = buff_rx[5] - 14;
 
   if (nbreMots*2 != sizeData){
     return WORD_DATA;
@@ -151,7 +151,7 @@ void * thread_traitement(struct param_thread * param){
   int nbreMot = param->datas[0];
   memcpy(datas, param->datas, nbreMot);
 
-  if (datas[2] == 0xf){
+  if (datas[3] == 0xf){
     // on bloque des ressources
 
     // on vérifie que toutes les mutex dont on à besoin sont libres
@@ -160,7 +160,7 @@ void * thread_traitement(struct param_thread * param){
       pthread_mutex_lock(&modifier_etat);
       res = 1;
       for (int i= 0;  i<nbreMot; i++){
-        if (ressources[datas[2*i + 1]] != 0){
+        if (ressources[datas[2*i + 2]] != 0){
           res = 0;
           pthread_mutex_unlock(&modifier_etat);
           break;
@@ -170,7 +170,7 @@ void * thread_traitement(struct param_thread * param){
 
     // on prend les ressources
     for (int i= 0;  i<nbreMot; i++){
-      ressources[datas[2*i + 1]] = 1;
+      ressources[datas[2*i + 2]] = 1;
     }
 
     pthread_mutex_unlock(&modifier_etat);
@@ -179,7 +179,7 @@ void * thread_traitement(struct param_thread * param){
     // on libère des ressources sans vérifier quelles sont prises YOLO
     pthread_mutex_lock(&modifier_etat);
     for (int i= 0;  i<nbreMot; i++){
-      ressources[datas[2*i + 1]] = 0;
+      ressources[datas[2*i + 2]] = 0;
     }
     pthread_mutex_lock(&modifier_etat);
   }
