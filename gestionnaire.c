@@ -54,6 +54,10 @@ int main(){
   char OK = 0xFE;
   char KO = 0xFD;
 
+  for (int i = 0; i <NBRE_RESSOURCES; i++)
+    printf("%d ", ressources[i]);
+  printf("\n");
+
   localXway.network = 0x10;
   localXway.addr = 0x42;
 
@@ -110,6 +114,9 @@ int main(){
         remoteXway.addr = buff_rx[8];
         send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
         traitement(buff_rx + 20, remoteXway);
+        for (int i = 0; i <NBRE_RESSOURCES; i++)
+          printf("%d ", ressources[i]);
+        printf("\n");
     }
   }
 }
