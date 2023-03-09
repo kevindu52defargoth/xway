@@ -97,11 +97,11 @@ int main(){
     switch (res){
       case REQUEST_TYPE:
         PRINT("requete refusée car mauvais type de requete\n");
-        send_response(diag, "FD", 1, localXway, remoteXway, buff_rx[13]);
+        send_response(diag, "FD", 2, localXway, remoteXway, buff_rx[13]);
         break;
       case WORD_DATA:
         PRINT("données malformées\n");
-        send_response(diag, "FD", 1, localXway, remoteXway, buff_rx[13]);
+        send_response(diag, "FD", 2, localXway, remoteXway, buff_rx[13]);
         break;
       case 0:
         remoteXway.network = buff_rx[9];
