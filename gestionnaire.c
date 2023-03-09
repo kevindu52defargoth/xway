@@ -120,7 +120,7 @@ int check_trame(char* buff_rx){
   }
 
   int nbreMots = buff_rx[20];
-  int sizeData = buff_rx[5] - 14;
+  int sizeData = buff_rx[5] - 16;
   printf("nbreMots = %d, sizeData = %d", nbreMots, sizeData);
 
   if (nbreMots*2 != sizeData){
