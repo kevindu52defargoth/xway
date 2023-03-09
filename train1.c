@@ -69,6 +69,9 @@ int main() {
   char noRes[3] = {0, 0, 0};
   char motRes[] = {0x01, 0x00};
   
+  noRes[0] = 1;
+  DEMANDE_RESSOURCE(1)
+
 	while(1) {
   AIGUILLAGE(31, train1);
   
