@@ -181,8 +181,8 @@ void wait_ressource(int socket, struct XwayAddr src, struct XwayAddr dest) {
   int nbcar;
   char buff_rx[MAXCAR + 1];
   int att = -1;
-  while (att == -1) {
   printf("On attend les ressources\n");
+  while (att == -1) {
   nbcar = recvfrom(socket, buff_rx, 30, 0, NULL, NULL);
 #ifdef _DEBUG_
   printf("recu : ");
