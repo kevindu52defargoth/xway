@@ -19,7 +19,7 @@
 #define TRONCON(no, mot, capt) printf("troncon : %d\n", no)
 #define AIGUILLAGE(no, mot) printf("AIGUILLAGE : %d\n", no)
 #define DEMANDE_RESSOURCE(no) res[0] = no; res[1] = -1; write_words(sd2, res, motRes, 1, addrLocal, addrGeste, NULL, NULL); wait_ressource(sd2, addrLocal, addrGeste);
-#define LIBERE_RESSOURCE(no) res[0] = no; res[1] = 0; write_words(sd2, res, motRes, 1, addrLocal, addrGeste, NULL, NULL);
+#define LIBERE_RESSOURCE(no) res[0] = no; res[1] = 0; write_words(sd2, res, motRes, 1, addrLocal, addrGeste, NULL, NULL); wait_ressource(sd2, addrLocal, addrGeste);
 
 
 
