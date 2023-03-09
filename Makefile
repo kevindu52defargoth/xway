@@ -2,9 +2,8 @@ CC = gcc
 
 CFLAGS  = -Wall
 CFLAGS += -std=c99
-ifeq ($(DEBUG),on)
-CFLAGS += -D_DEBUG
-endif
+CFLAGS += -D_DEBUG_
+
 
 all: train1 train2 train3 train4 gestionnaire request.o
 
