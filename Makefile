@@ -1,18 +1,19 @@
 CC = gcc
 
-CPPFLAGS =
+CFLAGS  = -Wall
+CFLAGS += -std=c99
+
 ifeq ($(DEBUG),on)
 CPPFLAGS += -D_DEBUG
 endif
-ifeq ($(TEST_BASIQUE), on)
-CPPFLAGS += -D_TEST_BASIQUE
-endif
-ifneq ($(NBMAX),)
-CPPFLAGS += -DNBMAX=$(NBMAX)
-endif
 
-CFLAGS  = -Wall
-CFLAGS += -Werror
-CFLAGS += -std=c99
-CFLAGS += -pedantic
+all: train1 train2 train3 train4 gestionnaire request.o
 
+gestionnaire : request.o gestionnaire.o
+	$(CC) gestionnaire.c request.o $(CFLAGS) -lpthread -o gestionnaire
+
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
+
+train%: train%.o request.o
+	$(CC) $(CFLAGS) $< request.o -o $@
