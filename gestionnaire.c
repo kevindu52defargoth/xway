@@ -106,7 +106,7 @@ int main(){
       case 0:
         remoteXway.network = buff_rx[9];
         remoteXway.addr = buff_rx[8];
-        traitement(buff_rx + 19, remoteXway);
+        traitement(buff_rx + 20, remoteXway);
         send_response(diag, "FE", 1, localXway, remoteXway, buff_rx[13]);
     }
   }
