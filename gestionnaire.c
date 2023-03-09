@@ -85,8 +85,6 @@ int main(){
   // communication
   while(1){
     nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
-    if (nbCar == 0)
-      continue;
     PRINT("recue : ");
     affiche_trame(buff_rx);
 
@@ -94,20 +92,17 @@ int main(){
     switch (res){
       case REQUEST_TYPE:
         PRINT("requete refusée car mauvais type de requete\n");
+        send_response(diag, "FD", 1, localXway, remoteXway, buff_rx[13]);
         break;
       case WORD_DATA:
         PRINT("données malformées\n");
+        send_response(diag, "FD", 1, localXway, remoteXway, buff_rx[13]);
         break;
-    }
-
-    remoteXway.network = buff_rx[9];
-    remoteXway.addr = buff_rx[8];
-
-    if (res == 0){
-      traitement(buff_rx + 19, remoteXway);
-      send_response(diag, "FE", 1, localXway, remoteXway, buff_rx[13]);
-    } else {
-      send_response(diag, "FE", 1, localXway, remoteXway, buff_rx[13]);
+      case 0:
+        remoteXway.network = buff_rx[9];
+        remoteXway.addr = buff_rx[8];
+        traitement(buff_rx + 19, remoteXway);
+        send_response(diag, "FE", 1, localXway, remoteXway, buff_rx[13]);
     }
   }
 }
