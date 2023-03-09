@@ -85,7 +85,7 @@ int main(){
   while(1){
     recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
 #ifdef _DEBUG_
-    PRINT("\recue : ");
+    PRINT("recue : ");
     affiche_trame(buff_rx);
 #endif
 
