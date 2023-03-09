@@ -130,6 +130,10 @@ void wait_acknowledge(int socket, struct XwayAddr src, struct XwayAddr dest){
     #endif
     if (buff_rx[nbcar -1] == (char) 0xfe)
       att = 0;
+    if (buff_rx[nbcar -1] == (char) 0xfd){
+      printf("erreur Uwu\n");
+      exit(69);
+    }
   } while (att == -1);
 
 }

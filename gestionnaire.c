@@ -51,6 +51,8 @@ int main(){
   int adrlg; // longueur de l'addresse
   int res;
   int nbCar;
+  char OK = 0xFE;
+  char KO = 0xFD;
 
   localXway.network = 0x10;
   localXway.addr = 0x42;
@@ -97,16 +99,16 @@ int main(){
     switch (res){
       case REQUEST_TYPE:
         PRINT("requete refusée car mauvais type de requete\n");
-        send_response(diag, "FD", 2, localXway, remoteXway, buff_rx[13]);
+        send_response(diag, &KO, 2, localXway, remoteXway, buff_rx[13]);
         break;
       case WORD_DATA:
         PRINT("données malformées\n");
-        send_response(diag, "FD", 2, localXway, remoteXway, buff_rx[13]);
+        send_response(diag, &KO, 2, localXway, remoteXway, buff_rx[13]);
         break;
       case 0:
         remoteXway.network = buff_rx[9];
         remoteXway.addr = buff_rx[8];
-        send_response(diag, "FE", 1, localXway, remoteXway, buff_rx[13]);
+        send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
         traitement(buff_rx + 20, remoteXway);
     }
   }
