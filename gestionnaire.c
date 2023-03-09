@@ -94,7 +94,7 @@ int main(){
   // communication
   while(1){
     nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
-    if (nbCar == -1)
+    if (nbCar == -1 || nbCar == 0)
       continue;
     PRINT("recue : ");
     affiche_trame(buff_rx);
@@ -178,6 +178,7 @@ void * thread_traitement(struct param_thread * param){
     }
 
     // on prend les ressources
+    printf("take\n");
     for (int i= 0;  i<nbreMot; i++){
       ressources[(int) datas[2*i + 2]] = 1;
     }
@@ -187,6 +188,7 @@ void * thread_traitement(struct param_thread * param){
   } else {
     // on libère des ressources sans vérifier quelles sont prises YOLO
     pthread_mutex_lock(&modifier_etat);
+    printf("free\n");
     for (int i= 0;  i<nbreMot; i++){
       ressources[(int) datas[2*i + 2]] = 0;
     }
