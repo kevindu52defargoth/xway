@@ -17,3 +17,7 @@ gestionnaire : request.o gestionnaire.o
 
 train%: train%.o request.o
 	$(CC) $(CFLAGS) $< request.o -o $@
+
+clean:
+	rm *.o
+	rm gestionnaire
