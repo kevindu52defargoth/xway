@@ -87,10 +87,8 @@ int main(){
     nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
     if (nbCar == 0)
       continue;
-#ifdef _DEBUG_
     PRINT("recue : ");
     affiche_trame(buff_rx);
-#endif
 
     res = check_trame(buff_rx);
     switch (res){
