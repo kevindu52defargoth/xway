@@ -11,6 +11,11 @@ struct XwayAddr {
     exit(-1);                                                                  \
   }
 
+
+  /* macros automate */
+
+  #define TRONCON(no, mot, capt) vht[2] = (char) no; write_words(sd1, vht, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_cap(sd1, addrLocal, addrAPI, capt);
+  #define AIGUILLAGE(no, mot) vha[4] = (char) no; write_words(sd1, vha, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_cap(sd1, addrLocal, addrAPI, -1);
 void affiche_trame(char * buff);
 
 void send_trame(int socket, char * msg, int lenMsg, struct XwayAddr src, struct XwayAddr dest, char * response, int * lenResponse);

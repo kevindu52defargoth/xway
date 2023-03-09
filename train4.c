@@ -13,10 +13,6 @@
 #define REMOTEIP "10.31.125.14"
 #define REMOTEPORT 502
 
-
-#define TRONCON(no, mot, capt) vht[2] = (char) no; write_words(sd1, vht, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, capt);
-#define AIGUILLAGE(no, mot) vha[4] = (char) no; write_words(sd1, vha, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, -1);
-
 int main() {
   int sd1; // descripteur de socket de dialogue
   struct sockaddr_in addrServ, addrCli;
