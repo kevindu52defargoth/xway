@@ -14,11 +14,14 @@
 #define GESTEIP "10.31.125.110"
 #define REMOTEPORT 502
 
-
-#define TRONCON(no, mot, capt) vht[2] = (char) no; write_words(sd1, vht, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, capt);
-#define AIGUILLAGE(no, mot) vha[4] = (char) no; write_words(sd1, vha, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, -1);
+//#define TRONCON(no, mot, capt) vht[2] = (char) no; write_words(sd1, vht, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, capt);
+//#define AIGUILLAGE(no, mot) vha[4] = (char) no; write_words(sd1, vha, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_ack(sd1, addrLocal, addrAPI, -1);
+#define TRONCON(no, mot, capt) printf("troncon : %d", no)
+#define AIGUILLAGE(no, mot) printf("AIGUILLAGE : %d", no)
 #define DEMANDE_RESSOURCE(no) res[0] = no; res[1] = -1; write_words(sd2, res, motRes, 1, addrLocal, addrGeste, NULL, NULL); wait_ressource(sd2, addrLocal, addrGeste);
 #define LIBERE_RESSOURCE(no) res[0] = no; res[1] = 0; write_words(sd2, res, motRes, 1, addrLocal, addrGeste, NULL, NULL);
+
+
 
 int main() {
   int sd1, sd2; // descripteur de socket de dialogue
@@ -87,18 +90,22 @@ int main() {
   
   //-R1, R2+R3
   LIBERE_RESSOURCE(1)
+  DEMANDE_RESSOURCE(2)
   
   AIGUILLAGE(33, train1);
   
   TRONCON(10, train1, 60);
   
   //-R2, R4
+  LIBERE_RESSOURCE(2)
+  DEMANDE_RESSOURCE(4)
   
   AIGUILLAGE(63, train1);
   
   TRONCON(29, train1, 34);
   
-  //-R4
+  //-R4-R3
+  LIBERE_RESSOURCE(4)
     
   TRONCON(19, train1, 23);	
   }
