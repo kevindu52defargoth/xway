@@ -96,6 +96,8 @@ int main(){
     nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
     if (nbCar == -1)
       continue;
+    PRINT("recue : ");
+    affiche_trame(buff_rx);
 
     res = check_trame(buff_rx);
     switch (res){
