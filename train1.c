@@ -14,11 +14,6 @@
 #define GESTEIP "10.31.125.110"
 #define REMOTEPORT 502
 
-#define DEMANDE_RESSOURCE(no) res[0] = no; res[1] = -1; write_words(sd2, res, motRes, 1, addrLocal, addrGeste, NULL, NULL); wait_ressource(sd2, addrLocal, addrGeste);
-#define LIBERE_RESSOURCE(no) res[0] = no; res[1] = 0; write_words(sd2, res, motRes, 1, addrLocal, addrGeste, NULL, NULL); wait_ressource(sd2, addrLocal, addrGeste);
-
-
-
 int main() {
   int sd1, sd2; // descripteur de socket de dialogue
   struct sockaddr_in addrServ, addrCli;
@@ -69,7 +64,8 @@ int main() {
   
   char vht[] = {0x0A, 0x00, 0x2c, 0x00, 0xFF, 0xFF};
 
-  char res[] = {0x00, 0x00};
+  char res[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+  char noRes[3] = {0, 0, 0};
   char motRes[] = {0x01, 0x00};
   
 	while(1) {
@@ -78,6 +74,7 @@ int main() {
   TRONCON(3, train1, 24);
 
   //R1
+  noRes[0] = 1;
   DEMANDE_RESSOURCE(1)
 
   AIGUILLAGE(52, train1);
@@ -85,7 +82,10 @@ int main() {
   TRONCON(23, train1, 58);
   
   //-R1, R2+R3
+  noRes[0] = 1;
   LIBERE_RESSOURCE(1)
+  noRes[0] = 2;
+  noRes[1] = 3;
   DEMANDE_RESSOURCE(2)
   
   AIGUILLAGE(33, train1);
@@ -93,20 +93,21 @@ int main() {
   TRONCON(10, train1, 60);
   
   //-R2, R4
-  LIBERE_RESSOURCE(2)
-  DEMANDE_RESSOURCE(4)
+  noRes[0] = 2;
+  LIBERE_RESSOURCE(1)
+  noRes[0] = 4;
+  DEMANDE_RESSOURCE(1)
   
   AIGUILLAGE(63, train1);
   
   TRONCON(29, train1, 34);
   
   //-R4-R3
-  LIBERE_RESSOURCE(4)
+  noRes[0] = 3;
+  noRes[1] = 4;
+  LIBERE_RESSOURCE(2)
     
   TRONCON(19, train1, 23);
-  DEMANDE_RESSOURCE(1)
-  DEMANDE_RESSOURCE(2)
-  DEMANDE_RESSOURCE(4)
 
   }
 }
