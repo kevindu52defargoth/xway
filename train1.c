@@ -15,6 +15,7 @@
 #define REMOTEPORT 502
 
 int main() {
+  int t = 0;
   int sd1, sd2; // descripteur de socket de dialogue
   struct sockaddr_in addrServ, addrCli;
 
@@ -108,6 +109,8 @@ int main() {
   LIBERE_RESSOURCE(2)
     
   TRONCON(19, train1, 23);
-  break;
+  if (t == 1)
+    break;
+  t = 1;
   }
 }
