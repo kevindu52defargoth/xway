@@ -50,6 +50,7 @@ int main(){
   char buff_rx[MAXCAR + 1];
   int adrlg; // longueur de l'addresse
   int res;
+  int nbCar;
 
   localXway.network = 0x10;
   localXway.addr = 0x42;
@@ -83,7 +84,9 @@ int main(){
   diag = accept(sd1, (struct sockaddr *) &peer_addr, &peer_addr_size);
   // communication
   while(1){
-    recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
+    nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
+    if (nbCar == 0)
+      continue;
 #ifdef _DEBUG_
     PRINT("recue : ");
     affiche_trame(buff_rx);
