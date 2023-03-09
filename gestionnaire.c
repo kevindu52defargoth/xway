@@ -48,7 +48,7 @@ int main(){
   struct sockaddr_in addrSrv, peer_addr;
   socklen_t peer_addr_size;
   char buff_rx[MAXCAR + 1];
-  int adrlg; // longueur de l'addresse
+  int adrlg; // longueur de l’adresse
   int res;
   int nbCar;
   char OK = 0xFE;
@@ -187,7 +187,7 @@ void * thread_traitement(struct param_thread * param){
     pthread_mutex_unlock(&modifier_etat);
   }
 
-  send_trame(diag, "OK", 2, localXway, param->remote, NULL, 0);
+  send_trame(diag, "K", 1, localXway, param->remote, NULL, 0);
 
   return NULL;
 };
