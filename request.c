@@ -86,7 +86,7 @@ void write_words(int socket, char * msg, char * addresse_mot, int nbreMot, struc
     wait_acknowledge(socket, src, dest);
 }
 
-void wait_ack(int socket, struct XwayAddr src, struct XwayAddr dest, int capteur) {
+void wait_cap(int socket, struct XwayAddr src, struct XwayAddr dest, int capteur) {
 	int nbcar;
 	char buff_rx[MAXCAR + 1];
 	
