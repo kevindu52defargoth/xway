@@ -114,7 +114,7 @@ int main(){
 
 int check_trame(char* buff_rx){
   for (int i = 0; i < 4; i++){
-    if (buff_rx[i + 13] != header_mot[i]){
+    if (buff_rx[i + 14] != header_mot[i]){
       return REQUEST_TYPE;
     }
   }
