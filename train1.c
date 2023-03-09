@@ -107,6 +107,7 @@ int main() {
   //-R4-R3
   LIBERE_RESSOURCE(4)
     
-  TRONCON(19, train1, 23);	
+  TRONCON(19, train1, 23);
+  break;
   }
 }
