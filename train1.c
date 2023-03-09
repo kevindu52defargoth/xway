@@ -80,6 +80,7 @@ int main() {
   //R1
   noRes[0] = 1;
   DEMANDE_RESSOURCE(1)
+  DEMANDE_RESSOURCE(1)
 
   AIGUILLAGE(52, train1);
   

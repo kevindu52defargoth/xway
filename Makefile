@@ -2,7 +2,7 @@ CC = gcc
 
 CFLAGS  = -Wall
 CFLAGS += -std=c99
-CFLAGS += -D_DEBUG_
+#CFLAGS += -D_DEBUG_
 
 
 all: train1 train2 train3 train4 gestionnaire request.o
