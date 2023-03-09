@@ -148,7 +148,8 @@ int traitement(char * datas, struct XwayAddr remoteAddr){
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
   //paramètres
-  param.datas = datas;
+  param.datas = malloc(MAXCAR*sizeof(char));
+  memcpy(param.datas, datas, datas[0]*2 + 2);
   param.remote = remoteAddr;
 
   CHECK_T(pthread_create(&tid, &attr, (void*(*)(void*)) thread_traitement, &param), "pb creation thread\n");
