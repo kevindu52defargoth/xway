@@ -53,6 +53,7 @@ int main(){
   int nbCar;
   char OK = 0xFE;
   char KO = 0xFD;
+  char datas[10];
 
   for (int i = 0; i <NBRE_RESSOURCES; i++)
     printf("%d ", ressources[i]);
@@ -114,11 +115,8 @@ int main(){
         remoteXway.network = buff_rx[9];
         remoteXway.addr = buff_rx[8];
         send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
-        printf("%d\n", buff_rx[20]);
-        printf("%d\n", buff_rx[21]);
-        printf("%d\n", buff_rx[22]);
-        printf("%d\n", buff_rx[23]);
-        traitement(buff_rx + 20, remoteXway);
+        memcpy(datas, buff_rx + 20, buff_rx[20]*2 + 2);
+        traitement(datas, remoteXway);
 
     }
   }
