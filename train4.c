@@ -55,7 +55,7 @@ int main() {
 
   //etape 4 - envoie du message pour faire tourner le train
   addrLocal.network = addrAPI.network = addrGeste.network = 0x10;
-  addrLocal.addr = 0x0A;
+  addrLocal.addr = 0x0D;
   addrAPI.addr = 0x14;
   addrGeste.addr = 0x42;
   
