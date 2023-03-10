@@ -48,12 +48,11 @@ int main(){
   struct sockaddr_in addrSrv, peer_addr;
   socklen_t peer_addr_size;
   char buff_rx[MAXCAR + 1];
-  int adrlg; // longueur de l’adresse
   int res;
   int nbCar;
   char OK = 0xFE;
   char KO = 0xFD;
-  char datas[10];
+  char * datas;
 
   for (int i = 0; i <NBRE_RESSOURCES; i++)
     printf("%d ", ressources[i]);
@@ -115,9 +114,9 @@ int main(){
         remoteXway.network = buff_rx[9];
         remoteXway.addr = buff_rx[8];
         send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
-        memcpy(datas, buff_rx + 20, buff_rx[20]*2 + 2);
+        datas = malloc(100 * sizeof(char));
+        memcpy(datas, buff_rx + 20, buff_rx[21]*2 + 2);
         traitement(datas, remoteXway);
-
     }
   }
 }
@@ -150,8 +149,7 @@ int traitement(char * datas, struct XwayAddr remoteAddr){
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
   //paramètres
-  param.datas = malloc(MAXCAR*sizeof(char));
-  memcpy(param.datas, datas, datas[0]*2 + 2);
+  param.datas = datas;
   param.remote = remoteAddr;
 
   CHECK_T(pthread_create(&tid, &attr, (void*(*)(void*)) thread_traitement, &param), "pb creation thread\n");
@@ -200,7 +198,15 @@ void * thread_traitement(struct param_thread * param){
     }
     pthread_mutex_unlock(&modifier_etat);
   }
+
+  free(param->datas);
   char K = 0x4b;
+  pthread_mutex_lock(&modifier_etat);
+  printf("etat des ressources : \n");
+  for (int u = 0; u <NBRE_RESSOURCES; u++)
+    printf("%d ", ressources[u]);
+  printf("\n");
+  pthread_mutex_unlock(&modifier_etat);
 
   send_trame(diag, &K, 1, localXway, param->remote, NULL, 0);
 

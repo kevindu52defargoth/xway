@@ -9,9 +9,9 @@
 #include "request.h"
 
 #define MAXCAR 80
-#define LOCALIP "10.31.125.110"
+#define LOCALIP "172.31.69.115"
 #define REMOTEIP "10.31.125.14"
-#define GESTEIP "10.31.125.110"
+#define GESTEIP "172.31.69.115"
 #define REMOTEPORT 502
 
 int main() {
@@ -27,7 +27,7 @@ int main() {
   struct XwayAddr addrGeste;
  
   // Etape 1 - Creation des sockets
-  CHECK(sd1 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
+  //CHECK(sd1 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
   CHECK(sd2 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
 
   // Etape2 - Adressage du destinataire sd1
@@ -38,8 +38,8 @@ int main() {
 
 
   // Etape 3 - demande d'ouverture de connexion sd1
-  CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
-                     sizeof(struct sockaddr_in)), "Probleme connection\n");
+  //CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
+  //                   sizeof(struct sockaddr_in)), "Probleme connection\n");
 
   printf("OK connect sd1\n");
   // Etape2bis - Adressage du destinataire sd2
