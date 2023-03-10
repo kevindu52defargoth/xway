@@ -159,22 +159,28 @@ int traitement(char * datas, struct XwayAddr remoteAddr){
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
   //paramètres
-  param.datas = datas;
+  printf("dans traitement : données données moi : \n");
+  printf("%d\t", datas[0]);
+  printf("%d\t", datas[1]);
+  printf("%d\t", datas[2]);
+  printf("%d\t\n", datas[3]);
+  param.datas = malloc(100*sizeof(char));
+  memcpy(param.datas, datas, datas[0]*2 + 2);
   param.remote = remoteAddr;
 
   CHECK_T(pthread_create(&tid, &attr, (void*(*)(void*)) thread_traitement, &param), "pb creation thread\n");
+  //sleep(1);
   return 0;
 }
 
 void * thread_traitement(struct param_thread * param){
-  char datas[MAXCAR];
   int nbreMot = param->datas[0];
-  memcpy(datas, param->datas, nbreMot);
-  printf("%d\n", datas[0]);
-  printf("%d\n", datas[1]);
-  printf("%d\n", datas[2]);
-  printf("%d\n", datas[3]);
-  if (datas[3] == -1){
+  printf("dans le thread : \n");
+  printf("%d\t", param->datas[0]);
+  printf("%d\t", param->datas[1]);
+  printf("%d\t", param->datas[2]);
+  printf("%d\t\n", param->datas[3]);
+  if (param->datas[3] == -1){
     // on bloque des ressources
 
     // on vérifie que toutes les mutex dont on à besoin sont libres
@@ -183,7 +189,7 @@ void * thread_traitement(struct param_thread * param){
       pthread_mutex_lock(&modifier_etat);
       res = 1;
       for (int i= 0;  i<nbreMot; i++){
-        if (ressources[(int) datas[2*i + 1]] != 0){
+        if (ressources[(int) param->datas[2*i + 2]] != 0){
           res = 0;
           pthread_mutex_unlock(&modifier_etat);
           break;
@@ -194,7 +200,7 @@ void * thread_traitement(struct param_thread * param){
     // on prend les ressources
     printf("take\n");
     for (int i= 0;  i<nbreMot; i++){
-      ressources[(int) datas[2*i + 2]] = 1;
+      ressources[(int) param->datas[2*i + 2]] = 1;
     }
 
     pthread_mutex_unlock(&modifier_etat);
@@ -204,7 +210,7 @@ void * thread_traitement(struct param_thread * param){
     pthread_mutex_lock(&modifier_etat);
     printf("free\n");
     for (int i= 0;  i<nbreMot; i++){
-      ressources[(int) datas[2*i + 2]] = 0;
+      ressources[(int) param->datas[2*i + 2]] = 0;
     }
     pthread_mutex_unlock(&modifier_etat);
   }
