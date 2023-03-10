@@ -14,7 +14,8 @@
 #define REMOTEPORT 502
 
 int main() {
-  int sd1; // descripteur de socket de dialogue
+  int t = 0;
+  int sd1, sd2; // descripteur de socket de dialogue
   struct sockaddr_in addrServ, addrCli;
 
   int nbcar;
@@ -22,27 +23,40 @@ int main() {
 
   struct XwayAddr addrLocal;
   struct XwayAddr addrAPI;
- 
-  // Etape 1 - Creation de la socket
+  struct XwayAddr addrGeste;
+
+  // Etape 1 - Creation des sockets
   CHECK(sd1 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
+  CHECK(sd2 = socket(AF_INET, SOCK_STREAM, 0), "probleme creation socket\n");
 
-
-  // Etape2 - Adressage du destinataire
+  // Etape2 - Adressage du destinataire sd1
   addrServ.sin_family = AF_INET;
 
   addrServ.sin_port = htons(REMOTEPORT);
   addrServ.sin_addr.s_addr = inet_addr(REMOTEIP);
 
 
-  // Etape 3 - demande d'ouverture de connexion
+  // Etape 3 - demande d'ouverture de connexion sd1
   CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
-                     sizeof(struct sockaddr_in)), "Probleme connection\n");
-  printf("OK connect\n");
+                sizeof(struct sockaddr_in)), "Probleme connection\n");
+
+  printf("OK connect sd1\n");
+  // Etape2bis - Adressage du destinataire sd2
+  addrServ.sin_port = htons(7867);
+  addrServ.sin_addr.s_addr = inet_addr(GESTEIP);
+  printf("ok addressage\n");
+
+
+  // Etape 3bis - demande d'ouverture de connexion sd2
+  CHECK(connect(sd2, (const struct sockaddr *)&addrServ,
+                sizeof(struct sockaddr_in)), "Probleme connection\n");
+  printf("OK connect sd2\n");
 
   //etape 4 - envoie du message pour faire tourner le train
-  addrLocal.network = addrAPI.network = 0x10;
+  addrLocal.network = addrAPI.network = addrGeste.network = 0x10;
   addrLocal.addr = 0x0A;
   addrAPI.addr = 0x14;
+  addrGeste.addr = 0x42;
   
   char train3[] = {0x07, 0x00};
   char vha[] = {0x0A, 0x00, 0xFF, 0xFF, 0x32, 0x00};
