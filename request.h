@@ -17,8 +17,8 @@ struct XwayAddr {
 #define TRONCON(no, mot, capt) vht[2] = (char) no; write_words(sd1, vht, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_cap(sd1, addrLocal, addrAPI, capt);
 #define AIGUILLAGE(no, mot) vha[4] = (char) no; write_words(sd1, vha, mot, 3, addrLocal, addrAPI, NULL, NULL); wait_cap(sd1, addrLocal, addrAPI, -1);
 */
-#define TRONCON(no, mot, capt) printf("Troncon %d\n", no);
-#define AIGUILLAGE(no, mot) printf("Aiguillage %d\n", no);
+#define TRONCON(no, mot, capt) printf("Troncon %d\n", no) sleep(1);
+#define AIGUILLAGE(no, mot) printf("Aiguillage %d\n", no) sleep(1);
 
 #define DEMANDE_RESSOURCE(nb) for(int i=0; i<nb; i++) {res[2*i] = noRes[i]; res[2*i+1] = -1;}; write_words(sd2, res, motRes, nb, addrLocal, addrGeste, NULL, NULL); wait_ressource(sd2, addrLocal, addrGeste);
 #define LIBERE_RESSOURCE(nb) for(int i=0; i<nb; i++) {res[2*i] = noRes[i]; res[2*i+1] = 0;}; write_words(sd2, res, motRes, nb, addrLocal, addrGeste, NULL, NULL); wait_ressource(sd2, addrLocal, addrGeste);
