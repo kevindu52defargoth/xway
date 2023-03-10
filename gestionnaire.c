@@ -115,7 +115,17 @@ int main(){
         remoteXway.addr = buff_rx[8];
         send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
         datas = malloc(100 * sizeof(char));
-        memcpy(datas, buff_rx + 20, buff_rx[21]*2 + 2);
+        memcpy(datas, buff_rx + 20, buff_rx[20]*2 + 2);
+        printf("buffrx : \n");
+        printf("%d\t", buff_rx[20]);
+        printf("%d\t", buff_rx[21]);
+        printf("%d\t", buff_rx[22]);
+        printf("%d\t\n", buff_rx[23]);
+        printf("données données moi : \n");
+        printf("%d\t", datas[0]);
+        printf("%d\t", datas[1]);
+        printf("%d\t", datas[2]);
+        printf("%d\t\n", datas[3]);
         traitement(datas, remoteXway);
     }
   }
