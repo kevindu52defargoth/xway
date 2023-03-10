@@ -189,7 +189,7 @@ void * thread_traitement(struct param_thread * param){
       pthread_mutex_lock(&modifier_etat);
       res = 1;
       for (int i= 0;  i<nbreMot; i++){
-        if (ressources[(int) param->datas[2*i + 2]] != 0){
+        if (ressources[((int) param->datas[2*i + 2])-1] != 0){
           res = 0;
           pthread_mutex_unlock(&modifier_etat);
           break;
@@ -200,7 +200,7 @@ void * thread_traitement(struct param_thread * param){
     // on prend les ressources
     printf("take\n");
     for (int i= 0;  i<nbreMot; i++){
-      ressources[(int) param->datas[2*i + 2]] = 1;
+      ressources[((int) param->datas[2*i + 2])-1] = 1;
     }
 
     pthread_mutex_unlock(&modifier_etat);
@@ -210,7 +210,7 @@ void * thread_traitement(struct param_thread * param){
     pthread_mutex_lock(&modifier_etat);
     printf("free\n");
     for (int i= 0;  i<nbreMot; i++){
-      ressources[(int) param->datas[2*i + 2]] = 0;
+      ressources[((int) param->datas[2*i + 2])-1] = 0;
     }
     pthread_mutex_unlock(&modifier_etat);
   }
