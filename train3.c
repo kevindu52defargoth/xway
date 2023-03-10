@@ -49,6 +49,9 @@ int main() {
   
   char vht[] = {0x0A, 0x00, 0x2c, 0x00, 0xFF, 0xFF};
   
+  char noRes[3] = {0, 0, 0};
+  char motRes[] = {0x01, 0x00};
+  
   
 	while(1) {
 	
@@ -65,18 +68,31 @@ int main() {
   TRONCON(20, train3, 52);
   
   //R1 + R5
+  noRes[0] = 1;
+  noRes[1] = 5;
+  DEMANDE_RESSOURCE(2)
+
 
   AIGUILLAGE(34, train3);
 
   TRONCON(30, train3, 53);
 
   //-R1, R2
+  noRes[0] = 1;
+  LIBERE_RESSOURCE(1)
+  
+  noRes[0] = 2;
+  DEMANDE_RESSOURCE(1)
 
   AIGUILLAGE(33, train3);
   
   TRONCON(9, train3, 65);
   
   //-R5 -R2
+  noRes[0] = 2;
+  noRes[1] = 5;
+  LIBERE_RESSOURCE(2)
+
 
   TRONCON(31, train3, 66);
 
