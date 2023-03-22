@@ -155,6 +155,7 @@ int main(){
     CHECK(diag =accept(sd1, (struct sockaddr *) &peer_addr, &peer_addr_size), "accept");
      pthread_t tid;
      CHECK_T(pthread_create(&tid, NULL, client_thread, &diag), "problème création thread");
+     pthread_detach(tid);
   }
   // communication
 
