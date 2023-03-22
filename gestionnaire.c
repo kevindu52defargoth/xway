@@ -44,15 +44,67 @@ char header_mot[] = {0x37, 0x06, 0x68, 0x07};
 int sd1, diag; // descripteur de socket de dialogue
 struct XwayAddr localXway;
 
+void* client_thread(void* arg) {
+  int diag = *(int*)arg;
+  struct XwayAddr remoteXway;
+  char buff_rx[MAXCAR + 1];
+  int nbCar, res;
+  char OK = 0xFE;
+  char KO = 0xFD;
+  char * datas;
+
+  printf("debut dialogue\n");
+
+  while (1) {
+    nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
+    if (nbCar == -1 || nbCar == 0)
+      continue;
+    PRINT("recue : ");
+    affiche_trame(buff_rx);
+    printf("nbcar = %d\n", nbCar);
+
+    res = check_trame(buff_rx);
+    switch (res){
+      case REQUEST_TYPE:
+        PRINT("requete refusée car mauvais type de requete\n");
+        send_response(diag, &KO, 2, localXway, remoteXway, buff_rx[13]);
+        break;
+      case WORD_DATA:
+        PRINT("données malformées\n");
+        send_response(diag, &KO, 2, localXway, remoteXway, buff_rx[13]);
+        break;
+      case 0:
+        remoteXway.network = buff_rx[9];
+        remoteXway.addr = buff_rx[8];
+        send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
+        datas = malloc(100 * sizeof(char));
+        memcpy(datas, buff_rx + 20, buff_rx[20]*2 + 2);
+        printf("buffrx : \n");
+        printf("%d\t", buff_rx[20]);
+        printf("%d\t", buff_rx[21]);
+        printf("%d\t", buff_rx[22]);
+        printf("%d\t\n", buff_rx[23]);
+        printf("données données moi : \n");
+        printf("%d\t", datas[0]);
+        printf("%d\t", datas[1]);
+        printf("%d\t", datas[2]);
+        printf("%d\t\n", datas[3]);
+        traitement(datas, remoteXway);
+    }
+    PRINT("recue : ");
+    affiche_trame(buff_rx);
+    printf("nbcar = %d\n", nbCar);
+  }
+  close(diag);
+  pthread_exit(NULL);
+}
+
 int main(){
   struct sockaddr_in addrSrv, peer_addr;
   socklen_t peer_addr_size;
   char buff_rx[MAXCAR + 1];
   int res;
   int nbCar;
-  char OK = 0xFE;
-  char KO = 0xFD;
-  char * datas;
 
   for (int i = 0; i <NBRE_RESSOURCES; i++)
     printf("%d ", ressources[i]);
@@ -90,45 +142,13 @@ int main(){
 
   printf("debut\n");
   peer_addr_size = sizeof(peer_addr);
-  diag = accept(sd1, (struct sockaddr *) &peer_addr, &peer_addr_size);
-  // communication
   while(1){
-    nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
-    if (nbCar == -1 || nbCar == 0)
-      continue;
-    PRINT("recue : ");
-    affiche_trame(buff_rx);
-    printf("nbcar = %d\n", nbCar);
-
-    res = check_trame(buff_rx);
-    switch (res){
-      case REQUEST_TYPE:
-        PRINT("requete refusée car mauvais type de requete\n");
-        send_response(diag, &KO, 2, localXway, remoteXway, buff_rx[13]);
-        break;
-      case WORD_DATA:
-        PRINT("données malformées\n");
-        send_response(diag, &KO, 2, localXway, remoteXway, buff_rx[13]);
-        break;
-      case 0:
-        remoteXway.network = buff_rx[9];
-        remoteXway.addr = buff_rx[8];
-        send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
-        datas = malloc(100 * sizeof(char));
-        memcpy(datas, buff_rx + 20, buff_rx[20]*2 + 2);
-        printf("buffrx : \n");
-        printf("%d\t", buff_rx[20]);
-        printf("%d\t", buff_rx[21]);
-        printf("%d\t", buff_rx[22]);
-        printf("%d\t\n", buff_rx[23]);
-        printf("données données moi : \n");
-        printf("%d\t", datas[0]);
-        printf("%d\t", datas[1]);
-        printf("%d\t", datas[2]);
-        printf("%d\t\n", datas[3]);
-        traitement(datas, remoteXway);
-    }
+    CHECK(diag =accept(sd1, (struct sockaddr *) &peer_addr, &peer_addr_size), "accept");
+     pthread_t tid;
+     CHECK_T(pthread_create(&tid, NULL, client_thread, &diag), "problème création thread");
   }
+  // communication
+
 }
 
 int check_trame(char* buff_rx){
