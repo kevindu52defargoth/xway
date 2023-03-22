@@ -19,3 +19,4 @@ train%: train%.o request.o
 clean:
 	rm *.o
 	rm gestionnaire
+	rm train1 train2 train3 train4
