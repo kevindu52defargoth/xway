@@ -59,10 +59,13 @@ void* client_thread(void* arg) {
     nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
     if (nbCar == -1 || nbCar == 0)
       continue;
+#ifdef _DEBUG_
     PRINT("recue : ");
     affiche_trame(buff_rx);
+#endif
+#ifdef _DEBUG_TRAMES
     printf("nbcar = %d\n", nbCar);
-
+#endif
     res = check_trame(buff_rx);
     switch (res){
       case REQUEST_TYPE:
@@ -79,6 +82,7 @@ void* client_thread(void* arg) {
         send_response(diag, &OK, 1, localXway, remoteXway, buff_rx[13]);
         datas = malloc(100 * sizeof(char));
         memcpy(datas, buff_rx + 20, buff_rx[20]*2 + 2);
+#ifdef _DEBUG_TRAMES
         printf("buffrx : \n");
         printf("%d\t", buff_rx[20]);
         printf("%d\t", buff_rx[21]);
@@ -89,11 +93,16 @@ void* client_thread(void* arg) {
         printf("%d\t", datas[1]);
         printf("%d\t", datas[2]);
         printf("%d\t\n", datas[3]);
+#endif
         traitement(datas, remoteXway);
     }
+#ifdef _DEBUG_
     PRINT("recue : ");
     affiche_trame(buff_rx);
+#endif
+#ifdef _DEBUG_TRAMES
     printf("nbcar = %d\n", nbCar);
+#endif
   }
   close(diag);
   pthread_exit(NULL);
@@ -160,7 +169,9 @@ int check_trame(char* buff_rx){
 
   int nbreMots = buff_rx[20];
   int sizeData = buff_rx[5] - 16;
+#ifdef _DEBUG_TRAMES
   printf("nbreMots = %d, sizeData = %d\n", nbreMots, sizeData);
+#endif
 
   if (nbreMots*2 != sizeData){
     return WORD_DATA;
@@ -179,11 +190,6 @@ int traitement(char * datas, struct XwayAddr remoteAddr){
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
   //paramètres
-  printf("dans traitement : données données moi : \n");
-  printf("%d\t", datas[0]);
-  printf("%d\t", datas[1]);
-  printf("%d\t", datas[2]);
-  printf("%d\t\n", datas[3]);
   param.datas = malloc(100*sizeof(char));
   memcpy(param.datas, datas, datas[0]*2 + 2);
   param.remote = remoteAddr;
@@ -195,11 +201,6 @@ int traitement(char * datas, struct XwayAddr remoteAddr){
 
 void * thread_traitement(struct param_thread * param){
   int nbreMot = param->datas[0];
-  printf("dans le thread : \n");
-  printf("%d\t", param->datas[0]);
-  printf("%d\t", param->datas[1]);
-  printf("%d\t", param->datas[2]);
-  printf("%d\t\n", param->datas[3]);
   if (param->datas[3] == -1){
     // on bloque des ressources
 
@@ -238,7 +239,7 @@ void * thread_traitement(struct param_thread * param){
   free(param->datas);
   char K = 0x4b;
   pthread_mutex_lock(&modifier_etat);
-  printf("etat des ressources : \n");
+  printf("état des ressources : \n");
   for (int u = 0; u <NBRE_RESSOURCES; u++)
     printf("%d ", ressources[u]);
   printf("\n");
