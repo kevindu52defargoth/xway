@@ -36,12 +36,11 @@ printf("\n%s\n", msg);   \
 pthread_mutex_unlock(&screen);   \
 }
 
-#define NBRE_RESSOURCES 4
+#define NBRE_RESSOURCES 7
 pthread_mutex_t modifier_etat;
 int ressources[NBRE_RESSOURCES] = {0};
 
 char header_mot[] = {0x37, 0x06, 0x68, 0x07};
-int sd1, diag; // descripteur de socket de dialogue
 struct XwayAddr localXway;
 
 void* client_thread(void* arg) {
@@ -53,7 +52,7 @@ void* client_thread(void* arg) {
   char KO = 0xFD;
   char * datas;
 
-  printf("debut dialogue\n");
+  printf("debut dialogue with %d\n", diag);
 
   while (1) {
     nbCar = recvfrom(diag, buff_rx, MAXCAR + 1, 0, NULL, NULL);
@@ -94,7 +93,7 @@ void* client_thread(void* arg) {
         printf("%d\t", datas[2]);
         printf("%d\t\n", datas[3]);
 #endif
-        traitement(datas, remoteXway);
+        traitement(diag, datas, remoteXway);
     }
 #ifdef _DEBUG_
     PRINT("recue : ");
@@ -112,6 +111,7 @@ int main(){
   struct sockaddr_in addrSrv, peer_addr;
   socklen_t peer_addr_size;
   char buff_rx[MAXCAR + 1];
+  int sd1;
   int res;
   int nbCar;
 
@@ -152,6 +152,7 @@ int main(){
   printf("debut\n");
   peer_addr_size = sizeof(peer_addr);
   while(1){
+    int diag;
     CHECK(diag =accept(sd1, (struct sockaddr *) &peer_addr, &peer_addr_size), "accept");
      pthread_t tid;
      CHECK_T(pthread_create(&tid, NULL, client_thread, &diag), "problème création thread");
@@ -181,8 +182,8 @@ int check_trame(char* buff_rx){
   return 0;
 }
 
-int traitement(char * datas, struct XwayAddr remoteAddr){
-  struct param_thread param;
+int traitement(int sock, char * datas, struct XwayAddr remoteAddr){
+  struct param_thread * param = (struct param_thread *) malloc(sizeof(struct param_thread));
   pthread_t tid;
   pthread_attr_t attr;
 
@@ -191,11 +192,12 @@ int traitement(char * datas, struct XwayAddr remoteAddr){
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
   //paramètres
-  param.datas = malloc(100*sizeof(char));
-  memcpy(param.datas, datas, datas[0]*2 + 2);
-  param.remote = remoteAddr;
+  param->datas = malloc(100*sizeof(char));
+  memcpy(param->datas, datas, datas[0]*2 + 2);
+  param->remote = remoteAddr;
+  param->sock = sock;
 
-  CHECK_T(pthread_create(&tid, &attr, (void*(*)(void*)) thread_traitement, &param), "pb creation thread\n");
+  CHECK_T(pthread_create(&tid, &attr, (void*(*)(void*)) thread_traitement, param), "pb creation thread\n");
   //sleep(1);
   return 0;
 }
@@ -206,6 +208,7 @@ void * thread_traitement(struct param_thread * param){
     // on bloque des ressources
 
     // on vérifie que toutes les mutex dont on à besoin sont libres
+    printf("take by %d\n", param->sock);
     int res = 0;
     while (res == 0){
       pthread_mutex_lock(&modifier_etat);
@@ -220,7 +223,7 @@ void * thread_traitement(struct param_thread * param){
     }
 
     // on prend les ressources
-    printf("take\n");
+    printf("taken by %d\n", param->sock);
     for (int i= 0;  i<nbreMot; i++){
       ressources[((int) param->datas[2*i + 2])-1] = 1;
     }
@@ -230,7 +233,7 @@ void * thread_traitement(struct param_thread * param){
   } else {
     // on libère des ressources sans vérifier quelles sont prises YOLO
     pthread_mutex_lock(&modifier_etat);
-    printf("free\n");
+    printf("free by %d\n", param->sock);
     for (int i= 0;  i<nbreMot; i++){
       ressources[((int) param->datas[2*i + 2])-1] = 0;
     }
@@ -246,7 +249,6 @@ void * thread_traitement(struct param_thread * param){
   printf("\n");
   pthread_mutex_unlock(&modifier_etat);
 
-  send_trame(diag, &K, 1, localXway, param->remote, NULL, 0);
-
+  send_trame(param->sock, &K, 1, localXway, param->remote, NULL, 0);
   return NULL;
 };
