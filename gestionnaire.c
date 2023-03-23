@@ -250,5 +250,7 @@ void * thread_traitement(struct param_thread * param){
   pthread_mutex_unlock(&modifier_etat);
 
   send_trame(param->sock, &K, 1, localXway, param->remote, NULL, 0);
+  free(param);
+
   return NULL;
 };
